@@ -1,0 +1,71 @@
+{{>/includes/header}}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Modify Page</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Board Modify Page</h6>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label>Bno</label>
+            <input type="text" class="form-control" name="bno" value="{{board.bno}}" readonly>
+        </div>
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control" name="title"  value="{{board.title}}"  >
+        </div>
+        <div class="form-group">
+            <label>Writer</label>
+            <input type="text" class="form-control" name="writer"  value="{{board.writer}}"  readonly>
+        </div>
+        <div class="form-group">
+            <label>Content</label>
+            <textarea class="form-control" name="content" >{{board.content}}</textarea>
+        </div>
+        <div class="form-group">
+            <label>RegDate</label>
+            <input type="text" class="form-control" name="regdate" value="{{board.regDateStr}}" readonly >
+        </div>
+        <button type="button" class="btn btn-info ">GO LIST</button>
+        <button type="button" class="btn btn-primary">MODIFY</button>
+        <button type="button" class="btn btn-danger">DELETE</button>
+    </div>
+</div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<form id="actionForm">
+    <input type="hidden" name="page" value="{{pageable.page}}">
+    <input type="hidden" name="size" value="{{pageable.size}}">
+</form>
+<script>
+
+    $(document).ready(function(){
+
+        var formObj = $("#actionForm");
+
+        $(".btn-primary").click(function(e){
+            formObj.attr("action","/board/modify")
+                .attr("method","post")
+                .append("<input type='hidden' name='bno' value='{{board.bno}}'>")
+                .append("<input type='hidden' name='title' value='"+ $("input[name='title']").val() +"'>")
+                .append("<input type='hidden' name='content' value='" +$("textarea").val() +"'>")
+            formObj.submit();
+        });
+
+        $(".btn-danger").click(function(e){
+            formObj.attr("action","/board/remove")
+                .attr("method","post");
+            formObj.empty();
+            formObj.append("<input type='hidden' name='bno' value='{{board.bno}}'>")
+            formObj.submit();
+        });
+
+    })
+
+</script>
+{{>/includes/footer}}

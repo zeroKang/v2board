@@ -4,6 +4,7 @@ import lombok.*;
 import org.zerock.board1.domain.Board;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @ToString
@@ -24,6 +25,10 @@ public class BoardDTO {
 
     private LocalDateTime modDate;
 
+    private String regDateStr;
+
+    private String modDateStr;
+
     public BoardDTO(Board board){
         this.bno = board.getBno();
         this.title = board.getTitle();
@@ -31,6 +36,9 @@ public class BoardDTO {
         this.writer = board.getWriter();
         this.regDate = board.getRegDate();
         this.modDate = board.getModDate();
+
+        this.regDateStr = regDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        this.modDateStr = modDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
     public Board getEntity(){

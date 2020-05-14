@@ -1,0 +1,89 @@
+{{>/includes/header}}
+      <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">DataTables Examplex
+                            <a class="badge badge-secondary" href="/board/register">Register New</a></h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Bno</th>
+                                    <th>Title</th>
+                                    <th>Writer</th>
+                                    <th>RegDate</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {{#data.boardList}}
+                                <tr>
+                                    <td class="board-bno" data-bno="{{bno}}">{{bno}}</td>
+                                    <td class="board-bno" data-bno="{{bno}}">{{title}}</td>
+                                    <td>{{writer}}</td>
+                                    <td>{{regDateStr}}</td>
+                                </tr>
+                                {{/data.boardList}}
+
+                                </tbody>
+                            </table>
+
+                            <ul class="pagination">
+                                {{#data.prev}}
+                                <li class="page-item"><a class="page-link" href="{{data.prevPage}}">Previous</a></li>
+                                {{/data.prev}}
+                                {{#data.pageList}}
+                                <li class="page-item"><a class="page-link" href="{{.}}">{{.}} </a></li>
+                                {{/data.pageList}}
+                                {{#data.next}}
+                                <li class="page-item"><a class="page-link" href="{{data.nextPage}}">Next</a></li>
+                                {{/data.next}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+<form id="actionForm">
+    <input type="hidden" name="page" value="{{data.page}}">
+    <input type="hidden" name="size" value="{{data.size}}">
+</form>
+<script>
+
+    $(document).ready(function(){
+
+        var formObj = $("#actionForm");
+
+        var pageNum = '{{data.page}}';
+
+        $(".page-link[href='"+pageNum+"']").parent().addClass("active");
+
+        $(".page-link").click(function(e){
+            e.preventDefault();
+            formObj.attr("action","/board/list")
+            .attr("method","get")
+            .find("input[name='page']").val($(this).attr("href"));
+            formObj.submit();
+
+        })
+
+        $(".board-bno").click(function(e){
+            formObj.attr("action","/board/read")
+                .attr("method","get")
+                .append("<input type='hidden' name='bno' value='"+$(this).data("bno")+"'>")
+            formObj.submit();
+        });
+    })
+
+</script>
+{{>/includes/footer}}
